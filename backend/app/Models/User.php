@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -51,5 +52,25 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Review::class, 'customer_id');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
+    public function isPharmacyOwner(): bool
+    {
+        return $this->role === 'pharmacy_owner';
+    }
+
+    public function isPharmacyStaff(): bool
+    {
+        return $this->role === 'pharmacy_staff';
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
     }
 }

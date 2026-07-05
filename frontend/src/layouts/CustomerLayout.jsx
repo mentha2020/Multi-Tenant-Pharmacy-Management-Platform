@@ -2,6 +2,7 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, User, LogOut, Search } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import useCartStore from '../store/cartStore';
+import EmailVerificationBanner from '../components/EmailVerificationBanner';
 
 export default function CustomerLayout() {
   const { user, logout } = useAuthStore();
@@ -15,6 +16,9 @@ export default function CustomerLayout() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Email Verification Banner */}
+      <EmailVerificationBanner />
+
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4">

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\ForgotPasswordController;
+use App\Http\Controllers\Api\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,11 +15,23 @@ use Illuminate\Support\Facades\Route;
 // Public Auth Routes
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('/auth/reset-password', [ResetPasswordController::class, 'reset']);
+
+// Email Verification
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
+    Route::post('/auth/email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])
+        ->middleware('throttle:6,1');
+
+    // Pharmacy Registration
+    Route::post('/auth/register-pharmacy', [AuthController::class, 'registerPharmacy']);
 
     // Super Admin Routes
     Route::prefix('super-admin')->middleware('role:super_admin')->group(function () {
@@ -25,6 +40,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Pharmacies Management
         Route::apiResource('pharmacies', App\Http\Controllers\Api\SuperAdmin\PharmacyController::class);
+        Route::patch('/pharmacies/{pharmacy}/activate', [App\Http\Controllers\Api\SuperAdmin\PharmacyController::class, 'activate']);
+        Route::patch('/pharmacies/{pharmacy}/deactivate', [App\Http\Controllers\Api\SuperAdmin\PharmacyController::class, 'deactivate']);
+
+        // Pharmacy Approval
+        Route::get('/pharmacy-approvals', [App\Http\Controllers\Api\SuperAdmin\PharmacyApprovalController::class, 'index']);
+        Route::post('/pharmacy-approvals/{pharmacy}/approve', [App\Http\Controllers\Api\SuperAdmin\PharmacyApprovalController::class, 'approve']);
+        Route::post('/pharmacy-approvals/{pharmacy}/reject', [App\Http\Controllers\Api\SuperAdmin\PharmacyApprovalController::class, 'reject']);
 
         // Medicines Management
         Route::apiResource('medicines', App\Http\Controllers\Api\SuperAdmin\MedicineController::class);
@@ -77,4 +99,9 @@ Route::middleware('auth:sanctum')->group(function () {
         // Reviews
         Route::post('/pharmacies/{pharmacy}/reviews', [App\Http\Controllers\Api\Customer\ReviewController::class, 'store']);
     });
+});
+
+// Public Categories (no auth required)
+Route::get('/categories', function () {
+    return \App\Models\Category::where('is_active', true)->get();
 });

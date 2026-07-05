@@ -14,6 +14,9 @@ import Home from './pages/customer/Home';
 import Search from './pages/customer/Search';
 import Login from './pages/customer/Login';
 import Register from './pages/customer/Register';
+import ForgotPassword from './pages/customer/ForgotPassword';
+import ResetPassword from './pages/customer/ResetPassword';
+import RegisterPharmacy from './pages/customer/RegisterPharmacy';
 import Cart from './pages/customer/Cart';
 import Checkout from './pages/customer/Checkout';
 
@@ -96,6 +99,9 @@ function App() {
             <Route path="search" element={<Search />} />
             <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
             <Route path="register" element={<PublicRoute><Register /></PublicRoute>} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="register-pharmacy" element={<RegisterPharmacy />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<ProtectedRoute allowedRoles={['customer']}><Checkout /></ProtectedRoute>} />
           </Route>

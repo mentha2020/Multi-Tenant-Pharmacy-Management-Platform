@@ -61,7 +61,39 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
+  registerPharmacy: async (data) => {
+    try {
+      set({ error: null });
+      const response = await api.post('/auth/register-pharmacy', data);
+      // Update user role after pharmacy registration
+      const userResponse = await api.get('/auth/me');
+      set({ user: userResponse.data.user });
+      return response.data;
+    } catch (error) {
+      set({ error: error.response?.data?.message || 'Registration failed' });
+      throw error;
+    }
+  },
+
+  sendVerificationEmail: async () => {
+    try {
+      await api.post('/auth/email/verification-notification');
+      return true;
+    } catch (error) {
+      console.error('Send verification email error:', error);
+      return false;
+    }
+  },
+
   clearError: () => set({ error: null }),
+
+  // Helper functions
+  isAuthenticated: () => !!get().user,
+  isAdmin: () => get().user?.role === 'super_admin',
+  isPharmacyOwner: () => get().user?.role === 'pharmacy_owner',
+  isPharmacyStaff: () => get().user?.role === 'pharmacy_staff',
+  isCustomer: () => get().user?.role === 'customer',
+  isEmailVerified: () => !!get().user?.email_verified_at,
 }));
 
 export default useAuthStore;
