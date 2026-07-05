@@ -23,6 +23,9 @@ import Checkout from './pages/customer/Checkout';
 // Admin Pages
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminPharmacies from './pages/admin/Pharmacies';
+import AdminMedicines from './pages/admin/Medicines';
+import AdminSupplyOrders from './pages/admin/SupplyOrders';
+import AdminReports from './pages/admin/Reports';
 
 // Pharmacy Pages
 import PharmacyDashboard from './pages/pharmacy/Dashboard';
@@ -114,6 +117,9 @@ function App() {
           }>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="pharmacies" element={<AdminPharmacies />} />
+            <Route path="medicines" element={<AdminMedicines />} />
+            <Route path="supply-orders" element={<AdminSupplyOrders />} />
+            <Route path="reports" element={<AdminReports />} />
           </Route>
 
           {/* Pharmacy Routes */}

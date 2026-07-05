@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['super_admin', 'pharmacy_owner', 'pharmacy_staff', 'customer'])->default('customer');
-            $table->foreignId('pharmacy_id')->nullable()->constrained();
+            $table->unsignedBigInteger('pharmacy_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
             $table->boolean('is_active')->default(true);
