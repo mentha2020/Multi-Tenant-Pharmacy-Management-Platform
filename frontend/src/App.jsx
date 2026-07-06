@@ -36,6 +36,8 @@ import PharmacyStock from './pages/pharmacy/Stock';
 import PharmacyOrders from './pages/pharmacy/Orders';
 import POS from './pages/pharmacy/POS';
 import PharmacySettings from './pages/pharmacy/Settings';
+import LowStock from './pages/pharmacy/LowStock';
+import SupplyRequests from './pages/pharmacy/SupplyRequests';
 
 // Protected Route Component
 function ProtectedRoute({ children, allowedRoles }) {
@@ -139,6 +141,8 @@ function App() {
             <Route path="orders" element={<PharmacyOrders />} />
             <Route path="pos" element={<POS />} />
             <Route path="settings" element={<PharmacySettings />} />
+            <Route path="low-stock" element={<LowStock />} />
+            <Route path="supply-requests" element={<SupplyRequests />} />
           </Route>
         </Routes>
       </Router>

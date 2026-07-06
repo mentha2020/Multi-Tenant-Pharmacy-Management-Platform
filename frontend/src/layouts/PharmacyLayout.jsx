@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Package, Warehouse, ShoppingCart, CreditCard, Settings, LogOut, ChevronDown, Bell } from 'lucide-react';
+import { LayoutDashboard, Package, Warehouse, ShoppingCart, CreditCard, Settings, LogOut, ChevronDown, Bell, AlertTriangle, Truck } from 'lucide-react';
 import { useState } from 'react';
 import useAuthStore from '../store/authStore';
 
@@ -7,7 +7,9 @@ const sidebarItems = [
   { path: '/pharmacy/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/pharmacy/medicines', label: 'Medicines', icon: Package },
   { path: '/pharmacy/stock', label: 'Stock', icon: Warehouse },
+  { path: '/pharmacy/low-stock', label: 'Low Stock', icon: AlertTriangle },
   { path: '/pharmacy/orders', label: 'Orders', icon: ShoppingCart },
+  { path: '/pharmacy/supply-requests', label: 'Supply Requests', icon: Truck },
   { path: '/pharmacy/pos', label: 'POS', icon: CreditCard },
   { path: '/pharmacy/settings', label: 'Settings', icon: Settings },
 ];

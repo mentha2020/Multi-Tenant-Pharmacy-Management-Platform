@@ -80,6 +80,14 @@ Route::middleware('auth:sanctum')->group(function () {
         // Settings
         Route::get('/settings', [App\Http\Controllers\Api\Pharmacy\SettingController::class, 'index']);
         Route::put('/settings', [App\Http\Controllers\Api\Pharmacy\SettingController::class, 'update']);
+
+        // Supply Requests
+        Route::get('/supply-requests', [App\Http\Controllers\Api\Pharmacy\SupplyRequestController::class, 'index']);
+        Route::post('/supply-requests', [App\Http\Controllers\Api\Pharmacy\SupplyRequestController::class, 'store']);
+        Route::get('/supply-requests/{supplyRequest}', [App\Http\Controllers\Api\Pharmacy\SupplyRequestController::class, 'show']);
+
+        // Low Stock Alerts
+        Route::get('/low-stock', [App\Http\Controllers\Api\Pharmacy\LowStockController::class, 'index']);
     });
 
     // Customer Routes

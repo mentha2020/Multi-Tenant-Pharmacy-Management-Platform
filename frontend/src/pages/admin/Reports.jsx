@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, TrendingUp, DollarSign, ShoppingCart, Building2, Calendar } from 'lucide-react';
+import { BarChart3, TrendingUp, DollarSign, ShoppingCart, Building2, Calendar, Download } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, Legend } from 'recharts';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
@@ -25,6 +25,33 @@ export default function Reports() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const exportCSV = () => {
+    if (!reportData?.revenue) return;
+    const headers = ['Month', 'Revenue', 'Orders'];
+    const rows = reportData.revenue.map(r => [r.month, r.revenue, r.orders]);
+    const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `report-${dateRange}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Report exported successfully');
+  };
+
+  const exportJSON = () => {
+    if (!reportData) return;
+    const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `report-${dateRange}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Report exported successfully');
   };
 
   if (loading) {
@@ -75,6 +102,14 @@ export default function Reports() {
           <p className="text-gray-500 mt-1">Platform-wide performance metrics</p>
         </div>
         <div className="flex items-center gap-3">
+          <button onClick={exportCSV} className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm font-medium">
+            <Download className="h-4 w-4" />
+            Export CSV
+          </button>
+          <button onClick={exportJSON} className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm font-medium">
+            <Download className="h-4 w-4" />
+            Export JSON
+          </button>
           <select value={dateRange} onChange={(e) => setDateRange(e.target.value)} className="border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500 focus:outline-none">
             <option value="weekly">This Week</option>
             <option value="monthly">This Month</option>
