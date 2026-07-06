@@ -7,7 +7,6 @@ const sidebarItems = [
   { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/admin/pharmacies', label: 'Pharmacies', icon: Building2 },
   { path: '/admin/medicines', label: 'Medicines', icon: Package },
-  { path: '/admin/orders', label: 'Orders', icon: ShoppingCart },
   { path: '/admin/supply-orders', label: 'Supply Orders', icon: Truck },
   { path: '/admin/reports', label: 'Reports', icon: BarChart3 },
   { path: '/admin/settings', label: 'Settings', icon: Settings },
@@ -19,9 +18,9 @@ export default function AdminLayout() {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-900 text-white flex flex-col fixed h-full">
+      <aside className="fixed inset-y-0 left-0 w-64 bg-gray-900 text-white flex flex-col z-50">
         {/* Logo */}
         <div className="p-4 border-b border-gray-800">
           <Link to="/admin/dashboard" className="flex items-center gap-3">
@@ -79,7 +78,7 @@ export default function AdminLayout() {
             </button>
 
             {showDropdown && (
-              <div className="absolute bottom-full left-0 w-full mb-2 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+              <div className="absolute bottom-full left-0 w-full mb-2 bg-gray-800 rounded-lg shadow-lg overflow-hidden z-50">
                 <button
                   onClick={logout}
                   className="flex items-center gap-2 w-full px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white"
@@ -94,7 +93,7 @@ export default function AdminLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-64">
+      <div className="ml-64">
         {/* Top Bar */}
         <header className="bg-white shadow-sm sticky top-0 z-40">
           <div className="flex items-center justify-between px-6 py-4">
@@ -115,10 +114,10 @@ export default function AdminLayout() {
         </header>
 
         {/* Page Content */}
-        <div className="p-6">
+        <main className="p-6">
           <Outlet />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

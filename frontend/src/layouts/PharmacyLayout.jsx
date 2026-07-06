@@ -20,9 +20,9 @@ export default function PharmacyLayout() {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className="w-64 bg-gray-900 text-white flex flex-col fixed h-full">
+      <aside className="fixed inset-y-0 left-0 w-64 bg-gray-900 text-white flex flex-col z-50">
         {/* Logo */}
         <div className="p-4 border-b border-gray-800">
           <Link to="/pharmacy/dashboard" className="flex items-center gap-3">
@@ -80,7 +80,7 @@ export default function PharmacyLayout() {
             </button>
 
             {showDropdown && (
-              <div className="absolute bottom-full left-0 w-full mb-2 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+              <div className="absolute bottom-full left-0 w-full mb-2 bg-gray-800 rounded-lg shadow-lg overflow-hidden z-50">
                 <Link to="/pharmacy/settings" className="flex items-center gap-2 w-full px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-white">
                   <Settings className="h-5 w-5" />
                   Settings
@@ -96,7 +96,7 @@ export default function PharmacyLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-64">
+      <div className="ml-64">
         {/* Top Bar */}
         <header className="bg-white shadow-sm sticky top-0 z-40">
           <div className="flex items-center justify-between px-6 py-4">
@@ -115,10 +115,10 @@ export default function PharmacyLayout() {
         </header>
 
         {/* Page Content */}
-        <div className="p-6">
+        <main className="p-6">
           <Outlet />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
