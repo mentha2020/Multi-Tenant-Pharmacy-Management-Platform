@@ -26,9 +26,24 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Only redirect to login on 401 if not during initial auth check
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      const token = localStorage.getItem('token');
+      const isAuthRoute = error.config?.url?.includes('/auth/me') || 
+                          error.config?.url?.includes('/auth/login') ||
+                          error.config?.url?.includes('/auth/register');
+      
+      // If we have a token but /auth/me fails, clear it (token expired/invalid)
+      if (token && error.config?.url?.includes('/auth/me')) {
+        localStorage.removeItem('token');
+      }
+      
+      // Don't redirect for auth check routes - let the store handle it
+      // Only redirect for other 401 errors (protected routes)
+      if (!isAuthRoute && token) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
