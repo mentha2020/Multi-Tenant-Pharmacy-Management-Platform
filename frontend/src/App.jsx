@@ -19,6 +19,8 @@ import ResetPassword from './pages/customer/ResetPassword';
 import RegisterPharmacy from './pages/customer/RegisterPharmacy';
 import Cart from './pages/customer/Cart';
 import Checkout from './pages/customer/Checkout';
+import OrderHistory from './pages/customer/Orders';
+import MedicineDetail from './pages/customer/MedicineDetail';
 
 // Admin Pages
 import AdminDashboard from './pages/admin/Dashboard';
@@ -108,6 +110,8 @@ function App() {
             <Route path="register-pharmacy" element={<RegisterPharmacy />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout" element={<ProtectedRoute allowedRoles={['customer']}><Checkout /></ProtectedRoute>} />
+            <Route path="orders" element={<ProtectedRoute allowedRoles={['customer']}><OrderHistory /></ProtectedRoute>} />
+            <Route path="medicine/:id" element={<MedicineDetail />} />
           </Route>
 
           {/* Admin Routes */}
