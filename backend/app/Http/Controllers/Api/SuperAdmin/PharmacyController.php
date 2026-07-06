@@ -39,17 +39,25 @@ class PharmacyController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:pharmacies,slug',
+            'subdomain' => 'required|string|max:255|unique:pharmacies,subdomain',
+            'owner_id' => 'nullable|exists:users,id',
             'description' => 'nullable|string',
-            'phone' => 'sometimes|string|max:20',
+            'logo' => 'nullable|string',
+            'license_no' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
             'email' => 'required|email|unique:pharmacies,email',
-            'address' => 'sometimes|string',
-            'city' => 'sometimes|string',
-            'state' => 'sometimes|string',
-            'zip_code' => 'sometimes|string',
+            'address' => 'required|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'zip_code' => 'required|string',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
             'business_hours' => 'nullable|array',
         ]);
+
+        $validated['is_active'] = true;
+        $validated['is_verified'] = true;
 
         $pharmacy = Pharmacy::create($validated);
 
