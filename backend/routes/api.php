@@ -113,3 +113,21 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/categories', function () {
     return \App\Models\Category::where('is_active', true)->get();
 });
+
+// Health Check
+Route::get('/health', function () {
+    try {
+        DB::connection()->getPdo();
+        $dbStatus = 'connected';
+    } catch (Exception $e) {
+        $dbStatus = 'disconnected';
+    }
+
+    return response()->json([
+        'status' => 'ok',
+        'timestamp' => now()->toISOString(),
+        'database' => $dbStatus,
+        'php_version' => PHP_VERSION,
+        'laravel_version' => app()->version(),
+    ]);
+});

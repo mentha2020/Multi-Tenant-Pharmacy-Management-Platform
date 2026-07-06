@@ -1,39 +1,47 @@
 # Dependencies
-node_modules/
-vendor/
+/vendor/
+/node_modules/
+/.pnp
+.pnp.js
 
-# Environment files
+# Environment
 .env
 .env.local
-.env.*.local
+.env.production
 
 # IDE
-.vscode/
-.idea/
+/.idea
+/.vscode
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Build
-dist/
-build/
-
 # Logs
 *.log
 npm-debug.log*
 
-# Laravel specific
-backend/storage/*.key
-backend/storage/logs/*
-backend/bootstrap/cache/*
-!backend/storage/logs/.gitignore
+# Build
+/dist/
+/build/
+/storage/*.key
 
-# React specific
-frontend/dist/
+# Cache
+/bootstrap/cache/*.php
+/storage/framework/cache/*.php
+/storage/framework/sessions/*.php
+/storage/framework/views/*.php
 
-# Database
-*.sqlite
-*.sqlite-journal
+# Docker
+docker-compose.override.yml
+
+# Testing
+coverage/
+.phpunit.result.cache
+
+# Misc
+*.seed
+*.map
