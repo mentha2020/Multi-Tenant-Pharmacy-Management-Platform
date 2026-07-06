@@ -48,14 +48,14 @@ export default function Search() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 dark:bg-gray-900 min-h-screen">
       {/* Search Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             {query ? `Search results for "${query}"` : 'All Medicines'}
           </h1>
-          <p className="text-gray-600">Found in {results.length} pharmacies</p>
+          <p className="text-gray-600 dark:text-gray-400">Found in {results.length} pharmacies</p>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={() => setViewMode('list')} className={`p-2.5 rounded-lg ${viewMode === 'list' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300'}`}>
@@ -68,23 +68,23 @@ export default function Search() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-xl shadow-sm mb-6">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm mb-6">
         <div className="flex flex-wrap gap-4 items-center">
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
             <Filter className="h-5 w-5" />
             <span className="font-medium">Filters:</span>
           </div>
-          <select value={filters.radius} onChange={(e) => setFilters({ ...filters, radius: e.target.value })} className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none">
+          <select value={filters.radius} onChange={(e) => setFilters({ ...filters, radius: e.target.value })} className="border dark:border-gray-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:text-white">
             <option value="5">Within 5 km</option>
             <option value="10">Within 10 km</option>
             <option value="25">Within 25 km</option>
             <option value="50">Within 50 km</option>
           </select>
           <label className="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" checked={filters.inStock} onChange={(e) => setFilters({ ...filters, inStock: e.target.checked })} className="rounded text-green-600" />
-            <span className="text-sm">In Stock Only</span>
+            <input type="checkbox" checked={filters.inStock} onChange={(e) => setFilters({ ...filters, inStock: e.target.checked })} className="rounded text-green-600 dark:text-green-400" />
+            <span className="text-sm dark:text-gray-300">In Stock Only</span>
           </label>
-          <select value={filters.sortBy} onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })} className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none">
+          <select value={filters.sortBy} onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })} className="border dark:border-gray-600 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:text-white">
             <option value="relevance">Relevance</option>
             <option value="price_low">Price: Low to High</option>
             <option value="price_high">Price: High to Low</option>
@@ -97,20 +97,20 @@ export default function Search() {
       {loading ? (
         <div className="text-center py-16">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Searching...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Searching...</p>
         </div>
       ) : results.length === 0 ? (
         <div className="text-center py-16">
-          <SearchIcon className="h-20 w-20 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-600 text-lg">No results found for "{query}"</p>
-          <p className="text-gray-400 mt-2">Try different keywords or browse categories</p>
+          <SearchIcon className="h-20 w-20 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400 text-lg">No results found for "{query}"</p>
+          <p className="text-gray-400 dark:text-gray-500 mt-2">Try different keywords or browse categories</p>
         </div>
       ) : viewMode === 'list' ? (
         <div className="space-y-4">
           {results.map((result, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow">
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 hover:shadow-md transition-shadow">
               <div className="flex items-start gap-4">
-                <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center flex-shrink-0">
                   {result.medicine.image ? (
                     <img src={result.medicine.image} alt={result.medicine.name} className="w-full h-full object-cover rounded-xl" />
                   ) : (
@@ -120,33 +120,33 @@ export default function Search() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between">
                     <div>
-                      <Link to={`/medicine/${result.medicine.id}`} className="font-bold text-lg text-gray-800 hover:text-green-600 transition-colors">
+                      <Link to={`/medicine/${result.medicine.id}`} className="font-bold text-lg text-gray-800 dark:text-gray-100 hover:text-green-600 transition-colors">
                         {result.medicine.name}
                       </Link>
-                      <p className="text-gray-500 text-sm">{result.medicine.generic_name}</p>
-                      {result.medicine.brand && <p className="text-gray-400 text-sm">Brand: {result.medicine.brand}</p>}
+                      <p className="text-gray-500 dark:text-gray-400 text-sm">{result.medicine.generic_name}</p>
+                      {result.medicine.brand && <p className="text-gray-400 dark:text-gray-500 text-sm">Brand: {result.medicine.brand}</p>}
                     </div>
                     <div className="text-right">
                       <p className="text-green-600 font-bold text-2xl">${result.price}</p>
                       {result.medicine.requires_prescription && (
-                        <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full font-medium">Rx Only</span>
+                        <span className="text-xs bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 px-2 py-1 rounded-full font-medium">Rx Only</span>
                       )}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 pt-4 border-t flex items-center justify-between">
+              <div className="mt-4 pt-4 border-t dark:border-gray-700 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <Link to={`/pharmacy/${result.pharmacy.subdomain}`} className="flex items-center gap-1 text-gray-600 hover:text-green-600">
+                  <Link to={`/pharmacy/${result.pharmacy.subdomain}`} className="flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-green-600">
                     <MapPin className="h-4 w-4" />
                     <span className="text-sm font-medium">{result.pharmacy.name}</span>
                   </Link>
-                  <span className="text-gray-300">|</span>
-                  <span className="text-gray-500 text-sm">{result.pharmacy.city}</span>
+                  <span className="text-gray-300 dark:text-gray-600">|</span>
+                  <span className="text-gray-500 dark:text-gray-400 text-sm">{result.pharmacy.city}</span>
                   {result.in_stock !== false && (
                     <>
-                      <span className="text-gray-300">|</span>
+                      <span className="text-gray-300 dark:text-gray-600">|</span>
                       <span className="text-green-600 text-sm font-medium">In Stock</span>
                     </>
                   )}

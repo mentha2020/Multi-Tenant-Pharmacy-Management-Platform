@@ -59,21 +59,21 @@ export default function SupplyOrders() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Supply Orders</h1>
-          <p className="text-gray-500 mt-1">Manage medicine supply to pharmacies</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Supply Orders</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Manage medicine supply to pharmacies</p>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-sm p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4">
         <div className="flex flex-wrap gap-4">
           <div className="flex-1 min-w-[300px]">
             <div className="relative">
-              <input type="text" placeholder="Search orders..." value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })} className="w-full pl-10 pr-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+              <input type="text" placeholder="Search orders..." value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value, page: 1 })} className="w-full pl-10 pr-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" />
               <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             </div>
           </div>
-          <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value, page: 1 })} className="border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500 focus:outline-none">
+          <select value={filters.status} onChange={(e) => setFilters({ ...filters, status: e.target.value, page: 1 })} className="border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             <option value="">All Status</option>
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>
@@ -86,29 +86,29 @@ export default function SupplyOrders() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Order #</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Pharmacy</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Items</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Total</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Order #</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Pharmacy</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Items</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Total</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {loading ? (
               <tr><td colSpan="6" className="px-6 py-12 text-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto"></div></td></tr>
             ) : orders.length === 0 ? (
-              <tr><td colSpan="6" className="px-6 py-12 text-center text-gray-500">No supply orders found</td></tr>
+              <tr><td colSpan="6" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400">No supply orders found</td></tr>
             ) : (
               orders.map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-mono text-sm">{order.supply_number}</td>
-                  <td className="px-6 py-4">{order.pharmacy?.name}</td>
-                  <td className="px-6 py-4">{order.items?.length || 0} items</td>
+                <tr key={order.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <td className="px-6 py-4 font-mono text-sm dark:text-gray-100">{order.supply_number}</td>
+                  <td className="px-6 py-4 dark:text-gray-100">{order.pharmacy?.name}</td>
+                  <td className="px-6 py-4 dark:text-gray-100">{order.items?.length || 0} items</td>
                   <td className="px-6 py-4 font-bold text-green-600">${order.total}</td>
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColors[order.status]}`}>
@@ -135,32 +135,32 @@ export default function SupplyOrders() {
       {/* Detail Modal */}
       {showModal && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b flex items-center justify-between">
-              <h2 className="text-xl font-bold">Supply Order #{selectedOrder.supply_number}</h2>
-              <button onClick={() => setShowModal(false)} className="text-gray-500 hover:text-gray-700"><X className="h-6 w-6" /></button>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b dark:border-gray-700 flex items-center justify-between">
+              <h2 className="text-xl font-bold dark:text-gray-100">Supply Order #{selectedOrder.supply_number}</h2>
+              <button onClick={() => setShowModal(false)} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"><X className="h-6 w-6" /></button>
             </div>
             <div className="p-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div><p className="text-sm text-gray-500">Pharmacy</p><p className="font-medium">{selectedOrder.pharmacy?.name}</p></div>
-                <div><p className="text-sm text-gray-500">Status</p><span className={`px-2 py-1 rounded-full text-xs font-semibold ${statusColors[selectedOrder.status]}`}>{selectedOrder.status.replace('_', ' ')}</span></div>
-                <div><p className="text-sm text-gray-500">Total</p><p className="font-bold text-green-600 text-lg">${selectedOrder.total}</p></div>
-                <div><p className="text-sm text-gray-500">Profit Margin</p><p className="font-medium">{selectedOrder.profit_margin}%</p></div>
+                <div><p className="text-sm text-gray-500 dark:text-gray-400">Pharmacy</p><p className="font-medium dark:text-gray-100">{selectedOrder.pharmacy?.name}</p></div>
+                <div><p className="text-sm text-gray-500 dark:text-gray-400">Status</p><span className={`px-2 py-1 rounded-full text-xs font-semibold ${statusColors[selectedOrder.status]}`}>{selectedOrder.status.replace('_', ' ')}</span></div>
+                <div><p className="text-sm text-gray-500 dark:text-gray-400">Total</p><p className="font-bold text-green-600 text-lg">${selectedOrder.total}</p></div>
+                <div><p className="text-sm text-gray-500 dark:text-gray-400">Profit Margin</p><p className="font-medium dark:text-gray-100">{selectedOrder.profit_margin}%</p></div>
               </div>
               <div>
-                <p className="text-sm text-gray-500 mb-2">Items</p>
-                <table className="w-full border rounded-lg">
-                  <thead className="bg-gray-50"><tr><th className="px-4 py-2 text-left text-xs font-semibold">Medicine</th><th className="px-4 py-2 text-left text-xs font-semibold">Qty</th><th className="px-4 py-2 text-left text-xs font-semibold">Cost</th><th className="px-4 py-2 text-left text-xs font-semibold">Supply</th></tr></thead>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Items</p>
+                <table className="w-full border rounded-lg dark:border-gray-600">
+                  <thead className="bg-gray-50 dark:bg-gray-700"><tr><th className="px-4 py-2 text-left text-xs font-semibold dark:text-gray-300">Medicine</th><th className="px-4 py-2 text-left text-xs font-semibold dark:text-gray-300">Qty</th><th className="px-4 py-2 text-left text-xs font-semibold dark:text-gray-300">Cost</th><th className="px-4 py-2 text-left text-xs font-semibold dark:text-gray-300">Supply</th></tr></thead>
                   <tbody>
                     {selectedOrder.items?.map((item, idx) => (
-                      <tr key={idx} className="border-t"><td className="px-4 py-2">{item.medicine?.name}</td><td className="px-4 py-2">{item.quantity}</td><td className="px-4 py-2">${item.cost_price}</td><td className="px-4 py-2">${item.supply_price}</td></tr>
+                      <tr key={idx} className="border-t dark:border-gray-600"><td className="px-4 py-2 dark:text-gray-100">{item.medicine?.name}</td><td className="px-4 py-2 dark:text-gray-100">{item.quantity}</td><td className="px-4 py-2 dark:text-gray-100">${item.cost_price}</td><td className="px-4 py-2 dark:text-gray-100">${item.supply_price}</td></tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <div className="p-6 border-t flex justify-end gap-3">
-              <button onClick={() => setShowModal(false)} className="px-4 py-2 border rounded-lg hover:bg-gray-50">Close</button>
+            <div className="p-6 border-t dark:border-gray-700 flex justify-end gap-3">
+              <button onClick={() => setShowModal(false)} className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">Close</button>
               {nextStatuses[selectedOrder.status] && (
                 <button onClick={() => handleUpdateStatus(selectedOrder.id, nextStatuses[selectedOrder.status])} className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                   Mark as {nextStatuses[selectedOrder.status].replace('_', ' ')}

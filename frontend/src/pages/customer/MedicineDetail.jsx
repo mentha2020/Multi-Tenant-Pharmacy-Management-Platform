@@ -54,8 +54,8 @@ export default function MedicineDetail() {
   if (!medicine) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
-        <p className="text-gray-600 text-lg">Medicine not found</p>
-        <Link to="/" className="text-green-600 hover:underline mt-4 inline-block">Go back home</Link>
+        <p className="text-gray-600 dark:text-gray-400 text-lg">Medicine not found</p>
+        <Link to="/" className="text-green-600 dark:text-green-400 hover:underline mt-4 inline-block">Go back home</Link>
       </div>
     );
   }
@@ -65,16 +65,16 @@ export default function MedicineDetail() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Link to="/" className="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 mb-6">
+      <Link to="/" className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-green-600 mb-6">
         <ArrowLeft className="h-5 w-5" />
         Back to Home
       </Link>
 
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
           {/* Image */}
-          <div className="bg-gray-50 p-8 flex items-center justify-center">
-            <div className="w-80 h-80 bg-white rounded-2xl shadow-sm flex items-center justify-center">
+          <div className="bg-gray-50 dark:bg-gray-700 p-8 flex items-center justify-center">
+            <div className="w-80 h-80 bg-white dark:bg-gray-600 rounded-2xl shadow-sm flex items-center justify-center">
               {medicine.image ? (
                 <img src={medicine.image} alt={medicine.name} className="w-full h-full object-cover rounded-2xl" />
               ) : (
@@ -86,17 +86,17 @@ export default function MedicineDetail() {
           {/* Details */}
           <div className="p-8">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-sm text-gray-500">{medicine.brand}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{medicine.brand}</span>
               {medicine.requires_prescription && (
-                <span className="px-2 py-0.5 bg-red-100 text-red-600 text-xs rounded-full font-medium">Rx Only</span>
+                <span className="px-2 py-0.5 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 text-xs rounded-full font-medium">Rx Only</span>
               )}
             </div>
 
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">{medicine.name}</h1>
-            <p className="text-gray-500 mb-4">{medicine.generic_name}</p>
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">{medicine.name}</h1>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">{medicine.generic_name}</p>
 
             {medicine.category && (
-              <span className="inline-block px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full mb-4">
+              <span className="inline-block px-3 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-sm rounded-full mb-4">
                 {medicine.category.name}
               </span>
             )}
@@ -112,30 +112,30 @@ export default function MedicineDetail() {
 
             {medicine.description && (
               <div className="mb-6">
-                <h3 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 flex items-center gap-2">
                   <Info className="h-4 w-4" />
                   Description
                 </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{medicine.description}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">{medicine.description}</p>
               </div>
             )}
 
             {medicine.manufacturer && (
               <div className="mb-6">
-                <p className="text-sm text-gray-500">Manufacturer</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Manufacturer</p>
                 <p className="font-medium">{medicine.manufacturer}</p>
               </div>
             )}
 
             {/* Pharmacy Info */}
             {stock?.pharmacy && (
-              <div className="mb-6 p-4 bg-gray-50 rounded-xl">
-                <h3 className="font-semibold text-gray-800 mb-2">Available at</h3>
-                <Link to={`/pharmacy/${stock.pharmacy.subdomain}`} className="flex items-center gap-2 text-green-600 hover:text-green-700">
+              <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">Available at</h3>
+                <Link to={`/pharmacy/${stock.pharmacy.subdomain}`} className="flex items-center gap-2 text-green-600 dark:text-green-400 hover:text-green-700">
                   <MapPin className="h-4 w-4" />
                   <span className="font-medium">{stock.pharmacy.name}</span>
-                  <span className="text-gray-400">•</span>
-                  <span className="text-sm text-gray-500">{stock.pharmacy.city}</span>
+                  <span className="text-gray-400 dark:text-gray-500">•</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{stock.pharmacy.city}</span>
                 </Link>
               </div>
             )}
@@ -143,12 +143,12 @@ export default function MedicineDetail() {
             {/* Quantity & Add to Cart */}
             {isInStock && (
               <div className="flex items-center gap-4">
-                <div className="flex items-center border rounded-lg">
-                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-3 hover:bg-gray-50">
+                <div className="flex items-center border dark:border-gray-600 rounded-lg">
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700">
                     <Minus className="h-4 w-4" />
                   </button>
                   <span className="px-4 py-3 font-semibold">{quantity}</span>
-                  <button onClick={() => setQuantity(Math.min(stock.quantity, quantity + 1))} className="px-4 py-3 hover:bg-gray-50">
+                  <button onClick={() => setQuantity(Math.min(stock.quantity, quantity + 1))} className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700">
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
@@ -160,7 +160,7 @@ export default function MedicineDetail() {
             )}
 
             {/* Trust Badges */}
-            <div className="mt-6 flex items-center gap-4 text-sm text-gray-500">
+            <div className="mt-6 flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center gap-1">
                 <Shield className="h-4 w-4 text-green-600" />
                 <span>Genuine Medicine</span>

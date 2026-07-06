@@ -102,19 +102,19 @@ export default function Reports() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Reports & Analytics</h1>
-          <p className="text-gray-500 mt-1">Platform-wide performance metrics</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Reports & Analytics</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Platform-wide performance metrics</p>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={exportCSV} className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm font-medium">
+          <button onClick={exportCSV} className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 text-sm font-medium">
             <Download className="h-4 w-4" />
             Export CSV
           </button>
-          <button onClick={exportJSON} className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm font-medium">
+          <button onClick={exportJSON} className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 text-sm font-medium">
             <Download className="h-4 w-4" />
             Export JSON
           </button>
-          <select value={dateRange} onChange={(e) => setDateRange(e.target.value)} className="border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500 focus:outline-none">
+          <select value={dateRange} onChange={(e) => setDateRange(e.target.value)} className="border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-white">
             <option value="weekly">This Week</option>
             <option value="monthly">This Month</option>
             <option value="quarterly">This Quarter</option>
@@ -157,11 +157,11 @@ export default function Reports() {
         ].map((card, idx) => {
           const Icon = card.icon;
           return (
-            <div key={idx} className="bg-white rounded-xl shadow-sm p-6">
+            <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-500">{card.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{card.value}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{card.label}</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{card.value}</p>
                   <span className="text-sm text-green-500 font-medium">{card.change} vs prev period</span>
                 </div>
                 <div className={`${card.color} p-3 rounded-xl`}>
@@ -176,8 +176,8 @@ export default function Reports() {
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Revenue Trend */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Revenue Trend</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">Revenue Trend</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -190,8 +190,8 @@ export default function Reports() {
         </div>
 
         {/* Orders Trend */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Orders Trend</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">Orders Trend</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={salesTrend}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -207,8 +207,8 @@ export default function Reports() {
       {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Category Distribution */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Sales by Category</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">Sales by Category</h2>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie data={categoryDistribution} cx="50%" cy="50%" outerRadius={80} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
@@ -222,37 +222,37 @@ export default function Reports() {
         </div>
 
         {/* Supply Orders */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Supply Overview</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">Supply Overview</h2>
           <div className="space-y-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-500">Total Supply Orders</p>
-              <p className="text-2xl font-bold">{reportData?.supply?.totalSupplyOrders || 0}</p>
+            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p className="text-sm text-gray-500 dark:text-gray-400">Total Supply Orders</p>
+              <p className="text-2xl font-bold dark:text-gray-100">{reportData?.supply?.totalSupplyOrders || 0}</p>
             </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-500">Total Supply Value</p>
+            <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p className="text-sm text-gray-500 dark:text-gray-400">Total Supply Value</p>
               <p className="text-2xl font-bold text-green-600">${Number(reportData?.supply?.totalSupplyValue || 0).toLocaleString()}</p>
             </div>
           </div>
         </div>
 
         {/* Top Pharmacies */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Top Pharmacies</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">Top Pharmacies</h2>
           <div className="space-y-4">
             {topPharmacies.length > 0 ? topPharmacies.map((pharmacy, idx) => (
               <div key={idx} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm">{idx + 1}</div>
                   <div>
-                    <p className="font-medium text-sm">{pharmacy.name}</p>
-                    <p className="text-xs text-gray-500">{pharmacy.orders} orders</p>
+                    <p className="font-medium text-sm dark:text-gray-100">{pharmacy.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{pharmacy.orders} orders</p>
                   </div>
                 </div>
                 <p className="font-bold text-green-600">${pharmacy.revenue.toLocaleString()}</p>
               </div>
             )) : (
-              <p className="text-gray-400 text-sm text-center py-4">No pharmacy data yet</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm text-center py-4">No pharmacy data yet</p>
             )}
           </div>
         </div>

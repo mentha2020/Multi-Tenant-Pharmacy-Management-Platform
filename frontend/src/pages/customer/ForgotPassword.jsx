@@ -26,18 +26,18 @@ export default function ForgotPassword() {
 
   if (sent) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4">
         <div className="max-w-md w-full text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Mail className="h-8 w-8 text-green-600" />
+          <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Mail className="h-8 w-8 text-green-600 dark:text-green-400" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Check your email</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Check your email</h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             We've sent a password reset link to <strong>{email}</strong>
           </p>
           <Link
             to="/login"
-            className="text-green-600 hover:text-green-700 font-medium flex items-center justify-center gap-2"
+            className="text-green-600 dark:text-green-400 hover:text-green-700 font-medium flex items-center justify-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to login
@@ -48,18 +48,18 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Forgot your password?</h2>
-          <p className="mt-2 text-gray-600">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Forgot your password?</h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">
             Enter your email and we'll send you a reset link
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 shadow rounded-lg p-8">
           <div className="mb-6">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Email address
             </label>
             <div className="relative">
@@ -69,10 +69,10 @@ export default function ForgotPassword() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full pl-10 pr-4 py-3 border dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder="Enter your email"
               />
-              <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+              <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
             </div>
           </div>
 
@@ -85,7 +85,7 @@ export default function ForgotPassword() {
           </button>
 
           <div className="mt-6 text-center">
-            <Link to="/login" className="text-green-600 hover:text-green-700 font-medium flex items-center justify-center gap-2">
+            <Link to="/login" className="text-green-600 dark:text-green-400 hover:text-green-700 font-medium flex items-center justify-center gap-2">
               <ArrowLeft className="h-4 w-4" />
               Back to login
             </Link>

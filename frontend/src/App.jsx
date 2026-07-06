@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import useAuthStore from './store/authStore';
+import useThemeStore from './store/themeStore';
 
 // Layouts
 import CustomerLayout from './layouts/CustomerLayout';
@@ -47,7 +48,7 @@ function ProtectedRoute({ children, allowedRoles }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
@@ -70,7 +71,7 @@ function PublicRoute({ children }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
       </div>
     );
@@ -93,15 +94,17 @@ const queryClient = new QueryClient();
 
 function App() {
   const initialize = useAuthStore((state) => state.initialize);
+  const initTheme = useThemeStore((state) => state.initialize);
 
   useEffect(() => {
     initialize();
-  }, [initialize]);
+    initTheme();
+  }, [initialize, initTheme]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <Toaster position="top-right" />
+        <Toaster position="top-right" toastOptions={{ className: 'dark:bg-gray-800 dark:text-gray-100' }} />
         <Routes>
           {/* Customer Routes */}
           <Route path="/" element={<CustomerLayout />}>

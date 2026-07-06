@@ -164,18 +164,18 @@ export default function POS() {
   };
 
   return (
-    <div className="h-[calc(100vh-3rem)] flex bg-gray-100">
+    <div className="h-[calc(100vh-3rem)] flex bg-gray-100 dark:bg-gray-900">
       {/* Left: Products */}
       <div className="flex-1 flex flex-col">
         {/* Search Bar */}
-        <div className="p-4 bg-white shadow">
+        <div className="p-4 bg-white shadow dark:bg-gray-800">
           <form onSubmit={handleSearch} className="flex gap-4">
             <div className="flex-1 relative">
               <input
                 ref={searchInputRef}
                 type="text"
                 placeholder="Search medicine or scan barcode..."
-                className="w-full text-lg p-3 border-2 rounded-lg focus:outline-none focus:border-green-500"
+                className="w-full text-lg p-3 border-2 rounded-lg focus:outline-none focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -196,14 +196,14 @@ export default function POS() {
               return (
                 <div
                   key={medicine.id}
-                  className={`bg-white p-4 rounded-lg shadow cursor-pointer transition-all ${isInStock ? 'hover:shadow-lg hover:-translate-y-1' : 'opacity-50 cursor-not--allowed'}`}
+                  className={`bg-white p-4 rounded-lg shadow cursor-pointer transition-all dark:bg-gray-800 ${isInStock ? 'hover:shadow-lg hover:-translate-y-1' : 'opacity-50 cursor-not--allowed'}`}
                   onClick={() => isInStock && addToCart(medicine)}
                 >
-                  <div className="text-xs text-gray-500 mb-1">{medicine.brand}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">{medicine.brand}</div>
                   <div className="font-semibold text-sm mb-2 line-clamp-2">{medicine.name}</div>
                   <div className="text-green-600 font-bold text-lg">${stock?.selling_price || medicine.unit_price}</div>
                   <div className="flex items-center justify-between mt-2">
-                    <span className={`text-xs ${isInStock ? 'text-gray-500' : 'text-red-500'}`}>
+                    <span className={`text-xs ${isInStock ? 'text-gray-500 dark:text-gray-400' : 'text-red-500'}`}>
                       {isInStock ? `${stock.quantity} in stock` : 'Out of stock'}
                     </span>
                     {cartItem && (
@@ -220,7 +220,7 @@ export default function POS() {
       </div>
 
       {/* Right: Cart */}
-      <div className="w-96 bg-white shadow-lg flex flex-col">
+      <div className="w-96 bg-white shadow-lg flex flex-col dark:bg-gray-800">
         {/* Cart Header */}
         <div className="p-4 border-b flex items-center gap-2 bg-green-600 text-white">
           <ShoppingCart className="h-6 w-6" />
@@ -230,19 +230,19 @@ export default function POS() {
         {/* Cart Items */}
         <div className="flex-1 overflow-auto">
           {cart.length === 0 ? (
-            <div className="text-center text-gray-500 py-12">
-              <ShoppingCart className="h-16 w-16 mx-auto mb-4 text-gray-300" />
+            <div className="text-center text-gray-500 dark:text-gray-400 py-12">
+              <ShoppingCart className="h-16 w-16 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
               <p>Cart is empty</p>
               <p className="text-sm">Click on items to add them</p>
             </div>
           ) : (
-            <div className="divide-y">
+            <div className="divide-y dark:divide-gray-700">
               {cart.map((item) => (
                 <div key={item.id} className="p-4">
                   <div className="flex justify-between items-start mb-2">
                     <div className="flex-1">
                       <div className="font-semibold">{item.name}</div>
-                      <div className="text-sm text-gray-500">{item.brand}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{item.brand}</div>
                       <div className="text-green-600">${item.price}</div>
                     </div>
                     <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:text-red-600">
@@ -250,11 +250,11 @@ export default function POS() {
                     </button>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center hover:bg-gray-300">
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-500">
                       <Minus className="h-4 w-4" />
                     </button>
                     <span className="w-12 text-center font-medium">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center hover:bg-gray-300">
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-500">
                       <Plus className="h-4 w-4" />
                     </button>
                     <span className="ml-auto font-bold">${(item.price * item.quantity).toFixed(2)}</span>
@@ -266,7 +266,7 @@ export default function POS() {
         </div>
 
         {/* Cart Summary */}
-        <div className="border-t p-4 bg-gray-50">
+        <div className="border-t p-4 bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
           {/* Discount */}
           <div className="flex items-center gap-2 mb-3">
             <input
@@ -274,16 +274,16 @@ export default function POS() {
               placeholder="Discount %"
               value={discount}
               onChange={(e) => setDiscount(Math.min(100, Math.max(0, Number(e.target.value))))}
-              className="w-24 border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
+              className="w-24 border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none dark:bg-gray-600 dark:border-gray-500 dark:text-white"
             />
-            <span className="text-sm text-gray-500">% discount</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">% discount</span>
           </div>
 
           <div className="space-y-2 mb-4">
-            <div className="flex justify-between text-gray-600"><span>Subtotal:</span><span>${subtotal.toFixed(2)}</span></div>
-            {discount > 0 && <div className="flex justify-between text-green-600"><span>Discount ({discount}%):</span><span>-${discountAmount.toFixed(2)}</span></div>}
-            <div className="flex justify-between text-gray-600"><span>Tax (10%):</span><span>${tax.toFixed(2)}</span></div>
-            <div className="flex justify-between text-xl font-bold pt-2 border-t"><span>Total:</span><span>${total.toFixed(2)}</span></div>
+            <div className="flex justify-between text-gray-600 dark:text-gray-300"><span>Subtotal:</span><span>${subtotal.toFixed(2)}</span></div>
+            {discount > 0 && <div className="flex justify-between text-green-600 dark:text-green-400"><span>Discount ({discount}%):</span><span>-${discountAmount.toFixed(2)}</span></div>}
+            <div className="flex justify-between text-gray-600 dark:text-gray-300"><span>Tax (10%):</span><span>${tax.toFixed(2)}</span></div>
+            <div className="flex justify-between text-xl font-bold pt-2 border-t dark:border-gray-600"><span>Total:</span><span>${total.toFixed(2)}</span></div>
           </div>
 
           {/* Payment Methods */}
@@ -299,7 +299,7 @@ export default function POS() {
                 className={`flex-1 p-3 rounded-lg flex items-center justify-center gap-2 border-2 transition-colors ${
                   paymentMethod === method
                     ? 'bg-green-600 text-white border-green-600'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-green-500'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-green-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:border-green-500'
                 }`}
               >
                 <Icon className="h-5 w-5" />
@@ -321,10 +321,10 @@ export default function POS() {
       {/* Receipt Modal */}
       {showReceipt && lastSale && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4">
-            <div className="p-6 border-b flex items-center justify-between">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full mx-4 dark:bg-gray-800">
+            <div className="p-6 border-b flex items-center justify-between dark:border-gray-700">
               <h2 className="text-xl font-bold">Sale Complete!</h2>
-              <button onClick={() => setShowReceipt(false)} className="text-gray-500 hover:text-gray-700">
+              <button onClick={() => setShowReceipt(false)} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                 <span className="text-2xl">&times;</span>
               </button>
             </div>
@@ -334,10 +334,10 @@ export default function POS() {
                   <Receipt className="h-8 w-8 text-green-600" />
                 </div>
                 <p className="text-lg font-semibold">Order #{lastSale.order_number || 'POS-' + Date.now()}</p>
-                <p className="text-gray-500">{new Date().toLocaleString()}</p>
+                <p className="text-gray-500 dark:text-gray-400">{new Date().toLocaleString()}</p>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-2">
                 {lastSale.items.map((item, idx) => (
                   <div key={idx} className="flex justify-between text-sm">
                     <span>{item.name} x{item.quantity}</span>
@@ -346,14 +346,14 @@ export default function POS() {
                 ))}
                 <hr />
                 <div className="flex justify-between text-sm"><span>Subtotal:</span><span>${lastSale.subtotal.toFixed(2)}</span></div>
-                {lastSale.discount > 0 && <div className="flex justify-between text-sm text-green-600"><span>Discount:</span><span>-${lastSale.discount.toFixed(2)}</span></div>}
+                {lastSale.discount > 0 && <div className="flex justify-between text-sm text-green-600 dark:text-green-400"><span>Discount:</span><span>-${lastSale.discount.toFixed(2)}</span></div>}
                 <div className="flex justify-between text-sm"><span>Tax:</span><span>${lastSale.tax.toFixed(2)}</span></div>
                 <div className="flex justify-between font-bold text-lg"><span>Total:</span><span>${lastSale.total.toFixed(2)}</span></div>
               </div>
 
-              <p className="text-center text-sm text-gray-500 mt-4">Payment: {lastSale.paymentMethod.toUpperCase()}</p>
+              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">Payment: {lastSale.paymentMethod.toUpperCase()}</p>
             </div>
-            <div className="p-6 border-t flex gap-3">
+            <div className="p-6 border-t flex gap-3 dark:border-gray-700">
               <button onClick={printReceipt} className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2">
                 <Printer className="h-5 w-5" />
                 Print Receipt

@@ -55,9 +55,9 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Pharmacy Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Pharmacy Dashboard</h1>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Last updated: {new Date().toLocaleString()}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">Last updated: {new Date().toLocaleString()}</span>
           <button onClick={loadDashboard} className="text-green-600 hover:text-green-700 text-sm font-medium">Refresh</button>
         </div>
       </div>
@@ -67,15 +67,15 @@ export default function Dashboard() {
         {statCards.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Link key={index} to={stat.link} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+            <Link key={index} to={stat.link} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow dark:bg-gray-800">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-500">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{stat.value}</p>
                   <div className="flex items-center mt-2">
                     <ArrowUpRight className="h-4 w-4 text-green-500" />
                     <span className="text-sm text-green-500 ml-1">{stat.change}</span>
-                    <span className="text-sm text-gray-400 ml-1">vs yesterday</span>
+                    <span className="text-sm text-gray-400 dark:text-gray-500 ml-1">vs yesterday</span>
                   </div>
                 </div>
                 <div className={`${stat.color} p-3 rounded-xl`}>
@@ -90,7 +90,7 @@ export default function Dashboard() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sales Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-6 dark:bg-gray-800">
           <h2 className="text-lg font-semibold mb-4">Weekly Sales</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={salesData}>
@@ -104,7 +104,7 @@ export default function Dashboard() {
         </div>
 
         {/* Orders Trend */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-6 dark:bg-gray-800">
           <h2 className="text-lg font-semibold mb-4">Orders Trend</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={salesData}>
@@ -141,25 +141,25 @@ export default function Dashboard() {
       {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Orders */}
-        <div className="bg-white rounded-xl shadow-sm">
-          <div className="p-4 border-b flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-sm dark:bg-gray-800">
+          <div className="p-4 border-b flex items-center justify-between dark:border-gray-700">
             <h2 className="text-lg font-semibold">Recent Orders</h2>
-            <Link to="/pharmacy/orders" className="text-green-600 hover:text-green-700 text-sm font-medium">View All</Link>
+            <Link to="/pharmacy/orders" className="text-green-600 dark:text-green-400 hover:text-green-700 text-sm font-medium">View All</Link>
           </div>
           <div className="p-4">
             {recentOrders.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No recent orders</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center py-8">No recent orders</p>
             ) : (
               <div className="space-y-3">
                 {recentOrders.slice(0, 5).map((order) => (
-                  <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100">
+                  <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600">
                     <div>
                       <p className="font-medium">#{order.order_number}</p>
-                      <p className="text-sm text-gray-500">{order.customer?.name || 'Guest'}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{order.customer?.name || 'Guest'}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-green-600">${order.total}</p>
-                      <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : order.status === 'delivered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                      <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : order.status === 'delivered' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'}`}>
                         {order.status}
                       </span>
                     </div>
@@ -171,23 +171,23 @@ export default function Dashboard() {
         </div>
 
         {/* Low Stock Alerts */}
-        <div className="bg-white rounded-xl shadow-sm">
-          <div className="p-4 border-b flex items-center gap-2">
+        <div className="bg-white rounded-xl shadow-sm dark:bg-gray-800">
+          <div className="p-4 border-b flex items-center gap-2 dark:border-gray-700">
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
             <h2 className="text-lg font-semibold">Low Stock Alerts</h2>
           </div>
           <div className="p-4">
             {lowStockAlerts.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No low stock alerts</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center py-8">No low stock alerts</p>
             ) : (
               <div className="space-y-3">
                 {lowStockAlerts.slice(0, 5).map((alert) => (
-                  <div key={alert.id} className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                  <div key={alert.id} className="flex items-center justify-between p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg">
                     <div className="flex items-center gap-3">
                       <Package className="h-5 w-5 text-yellow-600" />
                       <div>
                         <p className="font-medium">{alert.medicine?.name}</p>
-                        <p className="text-sm text-gray-500">Batch: {alert.batch_no || 'N/A'}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Batch: {alert.batch_no || 'N/A'}</p>
                       </div>
                     </div>
                     <span className="text-red-600 font-bold">{alert.quantity} left</span>

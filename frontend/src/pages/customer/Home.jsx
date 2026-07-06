@@ -33,7 +33,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-green-600 via-green-700 to-blue-600 text-white py-20 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-10"></div>
@@ -45,12 +45,12 @@ export default function Home() {
             Search from hundreds of pharmacies and get your medicines delivered to your doorstep
           </p>
           <form onSubmit={handleSearch} className="max-w-3xl mx-auto">
-            <div className="flex bg-white rounded-xl shadow-2xl overflow-hidden">
+            <div className="flex bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
               <input
                 type="text"
                 name="search"
                 placeholder="Search for medicines, health products..."
-                className="flex-1 px-6 py-4 text-gray-900 focus:outline-none"
+                className="flex-1 px-6 py-4 text-gray-900 dark:text-white dark:bg-gray-700 focus:outline-none"
               />
               <button
                 type="submit"
@@ -73,7 +73,7 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-8 bg-white border-b">
+      <section className="py-8 bg-white dark:bg-gray-800 border-b dark:border-gray-700">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
@@ -85,12 +85,12 @@ export default function Home() {
               const Icon = feature.icon;
               return (
                 <div key={idx} className="flex items-center gap-3 p-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Icon className="h-6 w-6 text-green-600" />
+                  <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Icon className="h-6 w-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-800">{feature.title}</h3>
-                    <p className="text-sm text-gray-500">{feature.desc}</p>
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100">{feature.title}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{feature.desc}</p>
                   </div>
                 </div>
               );
@@ -103,8 +103,8 @@ export default function Home() {
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Browse by Category</h2>
-            <Link to="/search" className="text-green-600 hover:text-green-700 flex items-center gap-1 text-sm font-medium">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Browse by Category</h2>
+            <Link to="/search" className="text-green-600 dark:text-green-400 hover:text-green-700 flex items-center gap-1 text-sm font-medium">
               View All <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -113,12 +113,12 @@ export default function Home() {
               <Link
                 key={category.id}
                 to={`/search?category=${category.id}`}
-                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all text-center group"
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-md transition-all text-center group"
               >
-                <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-green-200 transition-colors">
-                  <Package className="h-7 w-7 text-green-600" />
+                <div className="w-14 h-14 bg-green-100 dark:bg-green-900 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:bg-green-200 transition-colors">
+                  <Package className="h-7 w-7 text-green-600 dark:text-green-400" />
                 </div>
-                <span className="font-medium text-gray-800">{category.name}</span>
+                <span className="font-medium text-gray-800 dark:text-gray-100">{category.name}</span>
               </Link>
             ))}
           </div>
@@ -126,23 +126,23 @@ export default function Home() {
       </section>
 
       {/* Featured Pharmacies */}
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Featured Pharmacies</h2>
-            <Link to="/search" className="text-green-600 hover:text-green-700 flex items-center gap-1 text-sm font-medium">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Featured Pharmacies</h2>
+            <Link to="/search" className="text-green-600 dark:text-green-400 hover:text-green-700 flex items-center gap-1 text-sm font-medium">
               View All <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredPharmacies.map((pharmacy) => (
-              <div key={pharmacy.id} className="bg-gray-50 rounded-xl overflow-hidden hover:shadow-lg transition-all group">
+              <div key={pharmacy.id} className="bg-gray-50 dark:bg-gray-700 rounded-xl overflow-hidden hover:shadow-lg transition-all group">
                 <div className="h-48 bg-gradient-to-r from-green-400 to-blue-500 relative">
                   <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity"></div>
                 </div>
                 <div className="p-5">
-                  <h3 className="text-lg font-bold text-gray-800 group-hover:text-green-600 transition-colors">{pharmacy.name}</h3>
-                  <div className="flex items-center gap-1 text-gray-500 text-sm mt-1">
+                  <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 group-hover:text-green-600 transition-colors">{pharmacy.name}</h3>
+                  <div className="flex items-center gap-1 text-gray-500 dark:text-gray-400 text-sm mt-1">
                     <MapPin className="h-4 w-4" />
                     {pharmacy.city}, {pharmacy.state}
                   </div>
@@ -151,8 +151,8 @@ export default function Home() {
                       <Star className="h-4 w-4 text-yellow-400 fill-current" />
                       <span className="text-sm font-medium">{pharmacy.rating || '4.5'}</span>
                     </div>
-                    <span className="text-gray-300">|</span>
-                    <span className="text-sm text-gray-500">{pharmacy.reviews_count || 0} reviews</span>
+                    <span className="text-gray-300 dark:text-gray-600">|</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">{pharmacy.reviews_count || 0} reviews</span>
                   </div>
                   <Link
                     to={`/pharmacy/${pharmacy.subdomain}`}
@@ -170,7 +170,7 @@ export default function Home() {
       {/* How it Works */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-10 text-center text-gray-800">How It Works</h2>
+          <h2 className="text-2xl font-bold mb-10 text-center text-gray-800 dark:text-gray-100">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { icon: Search, title: 'Search Medicine', desc: 'Find the medicine you need from nearby pharmacies', color: 'green' },
@@ -183,11 +183,11 @@ export default function Home() {
                   <div className={`w-16 h-16 bg-${step.color}-100 rounded-2xl flex items-center justify-center mx-auto mb-4`}>
                     <Icon className={`h-8 w-8 text-${step.color}-600`} />
                   </div>
-                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3 text-sm font-bold text-gray-600">
+                  <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-3 text-sm font-bold text-gray-600 dark:text-gray-300">
                     {idx + 1}
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-gray-800">{step.title}</h3>
-                  <p className="text-gray-600">{step.desc}</p>
+                  <h3 className="text-lg font-bold mb-2 text-gray-800 dark:text-gray-100">{step.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{step.desc}</p>
                 </div>
               );
             })}

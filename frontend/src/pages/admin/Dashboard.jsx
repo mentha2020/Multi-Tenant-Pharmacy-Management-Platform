@@ -64,9 +64,9 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Last updated: {new Date().toLocaleString()}</span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">Last updated: {new Date().toLocaleString()}</span>
           <button onClick={loadDashboard} className="text-green-600 hover:text-green-700 text-sm font-medium">
             Refresh
           </button>
@@ -78,15 +78,15 @@ export default function Dashboard() {
         {statCards.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Link key={index} to={stat.link} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+            <Link key={index} to={stat.link} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-500">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
+                   <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{stat.value}</p>
                   <div className="flex items-center mt-2">
                     <ArrowUpRight className="h-4 w-4 text-green-500" />
                     <span className="text-sm text-green-500 ml-1">{stat.change}</span>
-                    <span className="text-sm text-gray-400 ml-1">vs last month</span>
+                    <span className="text-sm text-gray-400 dark:text-gray-500 ml-1">vs last month</span>
                   </div>
                 </div>
                 <div className={`${stat.color} p-3 rounded-xl`}>
@@ -101,8 +101,8 @@ export default function Dashboard() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sales Chart */}
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Sales Overview</h2>
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">Sales Overview</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={salesData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -115,8 +115,8 @@ export default function Dashboard() {
         </div>
 
         {/* Pharmacy Status Pie Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Pharmacy Status</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4 dark:text-gray-100">Pharmacy Status</h2>
           <ResponsiveContainer width="100%" height={200}>
             <PieChart>
               <Pie
@@ -139,7 +139,7 @@ export default function Dashboard() {
             {pharmacyStatusData.map((entry, index) => (
               <div key={index} className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index] }}></div>
-                <span className="text-sm text-gray-600">{entry.name}: {entry.value}</span>
+                <span className="text-sm text-gray-600 dark:text-gray-300">{entry.name}: {entry.value}</span>
               </div>
             ))}
           </div>
@@ -149,30 +149,30 @@ export default function Dashboard() {
       {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Pharmacies */}
-        <div className="bg-white rounded-xl shadow-sm">
-          <div className="p-4 border-b flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Recent Registrations</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+          <div className="p-4 border-b dark:border-gray-700 flex items-center justify-between">
+            <h2 className="text-lg font-semibold dark:text-gray-100">Recent Registrations</h2>
             <Link to="/admin/pharmacies" className="text-green-600 hover:text-green-700 text-sm font-medium">
               View All
             </Link>
           </div>
           <div className="p-4">
             {recentPharmacies.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No recent registrations</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center py-8">No recent registrations</p>
             ) : (
               <div className="space-y-3">
                 {recentPharmacies.slice(0, 5).map((pharmacy) => (
-                  <div key={pharmacy.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100">
+                  <div key={pharmacy.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                         <Building2 className="h-5 w-5 text-green-600" />
                       </div>
                       <div>
                         <p className="font-medium text-sm">{pharmacy.name}</p>
-                        <p className="text-xs text-gray-500">{pharmacy.city}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{pharmacy.city}</p>
                       </div>
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${pharmacy.is_active ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${pharmacy.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'}`}>
                       {pharmacy.is_active ? 'Active' : 'Pending'}
                     </span>
                   </div>
@@ -183,23 +183,23 @@ export default function Dashboard() {
         </div>
 
         {/* Low Stock Alerts */}
-        <div className="bg-white rounded-xl shadow-sm">
-          <div className="p-4 border-b flex items-center gap-2">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+          <div className="p-4 border-b dark:border-gray-700 flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
-            <h2 className="text-lg font-semibold">Low Stock Alerts</h2>
+            <h2 className="text-lg font-semibold dark:text-gray-100">Low Stock Alerts</h2>
           </div>
           <div className="p-4">
             {lowStockAlerts.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No low stock alerts</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center py-8">No low stock alerts</p>
             ) : (
               <div className="space-y-3">
                 {lowStockAlerts.slice(0, 5).map((alert) => (
-                  <div key={alert.id} className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                  <div key={alert.id} className="flex items-center justify-between p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
                     <div className="flex items-center gap-3">
                       <Package className="h-5 w-5 text-yellow-600" />
                       <div>
                         <p className="font-medium text-sm">{alert.medicine?.name}</p>
-                        <p className="text-xs text-gray-500">{alert.pharmacy?.name}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{alert.pharmacy?.name}</p>
                       </div>
                     </div>
                     <span className="text-red-600 font-bold text-sm">{alert.quantity} left</span>
@@ -211,27 +211,27 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Orders */}
-        <div className="bg-white rounded-xl shadow-sm">
-          <div className="p-4 border-b flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Recent Orders</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+          <div className="p-4 border-b dark:border-gray-700 flex items-center justify-between">
+            <h2 className="text-lg font-semibold dark:text-gray-100">Recent Orders</h2>
             <Link to="/admin/orders" className="text-green-600 hover:text-green-700 text-sm font-medium">
               View All
             </Link>
           </div>
           <div className="p-4">
             {recentOrders.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No recent orders</p>
+              <p className="text-gray-500 dark:text-gray-400 text-center py-8">No recent orders</p>
             ) : (
               <div className="space-y-3">
                 {recentOrders.slice(0, 5).map((order) => (
-                  <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div key={order.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                     <div>
                       <p className="font-medium text-sm">#{order.order_number}</p>
-                      <p className="text-xs text-gray-500">{order.pharmacy?.name}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{order.pharmacy?.name}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-green-600">${order.total}</p>
-                      <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'}`}>
+                      <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'}`}>
                         {order.status}
                       </span>
                     </div>
