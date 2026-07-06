@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('discount', 10, 2)->default(0);
             $table->decimal('tax', 10, 2)->default(0);
             $table->decimal('total', 10, 2);
-            $table->enum('payment_method', ['cash', 'card', 'mobile', 'stripe']);
+            $table->enum('payment_method', ['cash', 'card', 'mobile', 'stripe', 'cod']);
             $table->enum('payment_status', ['pending', 'paid', 'failed', 'refunded'])->default('pending');
             $table->string('stripe_payment_id')->nullable();
             $table->json('shipping_address')->nullable();

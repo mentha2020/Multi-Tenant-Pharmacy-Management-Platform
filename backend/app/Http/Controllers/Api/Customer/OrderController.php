@@ -39,7 +39,7 @@ class OrderController extends Controller
             'items' => 'required|array|min:1',
             'items.*.medicine_id' => 'required|exists:medicines,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'payment_method' => 'required|in:cash,card,stripe',
+            'payment_method' => 'required|in:cash,card,stripe,cod',
             'shipping_address' => 'required|array',
             'shipping_address.name' => 'required|string',
             'shipping_address.phone' => 'required|string',
@@ -99,12 +99,16 @@ class OrderController extends Controller
             'notes' => $validated['notes'] ?? null,
         ]);
 
-        // Create order items
+        // Create order items and reduce stock
         foreach ($orderItems as $item) {
             OrderItem::create([
                 'order_id' => $order->id,
                 ...$item,
             ]);
+
+            MedicineStock::where('medicine_id', $item['medicine_id'])
+                ->where('pharmacy_id', $pharmacyId)
+                ->decrement('quantity', $item['quantity']);
         }
 
         return response()->json([

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, TrendingUp, DollarSign, ShoppingCart, Building2, Calendar, Download } from 'lucide-react';
+import { BarChart3, TrendingUp, DollarSign, ShoppingCart, Download } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, Legend } from 'recharts';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
@@ -18,8 +18,22 @@ export default function Reports() {
   const loadReport = async () => {
     setLoading(true);
     try {
-      const response = await api.get('/super-admin/reports', { params: { range: dateRange } });
-      setReportData(response.data);
+      const rangeMap = { weekly: '7days', monthly: '30days', quarterly: '90days', yearly: '1year' };
+      const apiRange = rangeMap[dateRange] || '30days';
+
+      const [salesRes, revenueRes, inventoryRes, supplyRes] = await Promise.all([
+        api.get('/super-admin/reports/sales', { params: { range: apiRange } }).catch(() => ({ data: null })),
+        api.get('/super-admin/reports/revenue', { params: { range: apiRange } }).catch(() => ({ data: null })),
+        api.get('/super-admin/reports/inventory').catch(() => ({ data: null })),
+        api.get('/super-admin/reports/supply', { params: { range: apiRange } }).catch(() => ({ data: null })),
+      ]);
+
+      setReportData({
+        sales: salesRes.data,
+        revenue: revenueRes.data,
+        inventory: inventoryRes.data,
+        supply: supplyRes.data,
+      });
     } catch (error) {
       toast.error('Failed to load reports');
     } finally {
@@ -28,9 +42,9 @@ export default function Reports() {
   };
 
   const exportCSV = () => {
-    if (!reportData?.revenue) return;
-    const headers = ['Month', 'Revenue', 'Orders'];
-    const rows = reportData.revenue.map(r => [r.month, r.revenue, r.orders]);
+    if (!reportData?.revenue?.revenueByMonth) return;
+    const headers = ['Month', 'Revenue'];
+    const rows = reportData.revenue.revenueByMonth.map(r => [`Month ${r.month}`, r.revenue]);
     const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
@@ -62,37 +76,27 @@ export default function Reports() {
     );
   }
 
-  const revenueData = reportData?.revenue || [
-    { month: 'Jan', revenue: 12500, orders: 45 },
-    { month: 'Feb', revenue: 15000, orders: 52 },
-    { month: 'Mar', revenue: 18200, orders: 68 },
-    { month: 'Apr', revenue: 16800, orders: 58 },
-    { month: 'May', revenue: 21000, orders: 75 },
-    { month: 'Jun', revenue: 19500, orders: 70 },
-  ];
+  const revenueData = reportData?.revenue?.revenueByMonth?.map(r => ({
+    month: `Month ${r.month}`,
+    revenue: Number(r.revenue),
+  })) || [];
 
-  const topMedicines = reportData?.topMedicines || [
-    { name: 'Paracetamol', sales: 320, revenue: 4800 },
-    { name: 'Amoxicillin', sales: 280, revenue: 5600 },
-    { name: 'Ibuprofen', sales: 250, revenue: 3750 },
-    { name: 'Cetirizine', sales: 220, revenue: 3300 },
-    { name: 'Omeprazole', sales: 200, revenue: 4000 },
-  ];
+  const salesTrend = reportData?.sales?.salesTrend?.map(r => ({
+    date: r.date,
+    count: r.count,
+    revenue: Number(r.revenue),
+  })) || [];
 
-  const categoryDistribution = reportData?.categories || [
-    { name: 'Pain Relief', value: 35 },
-    { name: 'Antibiotics', value: 25 },
-    { name: 'Allergy', value: 15 },
-    { name: 'Digestive', value: 12 },
-    { name: 'Others', value: 13 },
-  ];
+  const categoryDistribution = reportData?.inventory?.categoryDistribution?.map(r => ({
+    name: r.name,
+    value: Number(r.total_quantity),
+  })) || [];
 
-  const topPharmacies = reportData?.topPharmacies || [
-    { name: 'Health Plus', orders: 156, revenue: 23400 },
-    { name: 'City Pharmacy', orders: 132, revenue: 19800 },
-    { name: 'MedCare', orders: 118, revenue: 17700 },
-    { name: 'PharmaHub', orders: 95, revenue: 14250 },
-  ];
+  const topPharmacies = reportData?.sales?.topPharmacies?.map(r => ({
+    name: r.pharmacy?.name || 'Unknown',
+    orders: r.order_count,
+    revenue: Number(r.revenue),
+  })) || [];
 
   return (
     <div className="space-y-6">
@@ -122,10 +126,34 @@ export default function Reports() {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {[
-          { label: 'Total Revenue', value: '$93,000', change: '+18%', icon: DollarSign, color: 'bg-green-500' },
-          { label: 'Total Orders', value: '368', change: '+24%', icon: ShoppingCart, color: 'bg-blue-500' },
-          { label: 'Avg Order Value', value: '$252', change: '+5%', icon: TrendingUp, color: 'bg-purple-500' },
-          { label: 'Active Pharmacies', value: '12', change: '+2', icon: Building2, color: 'bg-yellow-500' },
+          {
+            label: 'Total Revenue',
+            value: `$${Number(reportData?.revenue?.totalRevenue || 0).toLocaleString()}`,
+            change: '+18%',
+            icon: DollarSign,
+            color: 'bg-green-500',
+          },
+          {
+            label: 'Total Orders',
+            value: String(reportData?.sales?.totalOrders || 0),
+            change: '+24%',
+            icon: ShoppingCart,
+            color: 'bg-blue-500',
+          },
+          {
+            label: 'Platform Profit',
+            value: `$${Number(reportData?.revenue?.profit || 0).toLocaleString()}`,
+            change: '+5%',
+            icon: TrendingUp,
+            color: 'bg-purple-500',
+          },
+          {
+            label: 'Inventory Items',
+            value: String(reportData?.inventory?.totalMedicines || 0),
+            change: `${reportData?.inventory?.lowStockItems || 0} low stock`,
+            icon: BarChart3,
+            color: 'bg-yellow-500',
+          },
         ].map((card, idx) => {
           const Icon = card.icon;
           return (
@@ -165,12 +193,12 @@ export default function Reports() {
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-lg font-semibold mb-4">Orders Trend</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={revenueData}>
+            <BarChart data={salesTrend}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis dataKey="month" stroke="#9ca3af" />
+              <XAxis dataKey="date" stroke="#9ca3af" />
               <YAxis stroke="#9ca3af" />
               <Tooltip />
-              <Bar dataKey="orders" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -178,20 +206,6 @@ export default function Reports() {
 
       {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Top Medicines */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold mb-4">Top Selling Medicines</h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={topMedicines} layout="vertical">
-              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-              <XAxis type="number" stroke="#9ca3af" />
-              <YAxis dataKey="name" type="category" width={100} stroke="#9ca3af" tick={{ fontSize: 12 }} />
-              <Tooltip />
-              <Bar dataKey="sales" fill="#8b5cf6" radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
         {/* Category Distribution */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-lg font-semibold mb-4">Sales by Category</h2>
@@ -207,11 +221,26 @@ export default function Reports() {
           </ResponsiveContainer>
         </div>
 
+        {/* Supply Orders */}
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <h2 className="text-lg font-semibold mb-4">Supply Overview</h2>
+          <div className="space-y-4">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-500">Total Supply Orders</p>
+              <p className="text-2xl font-bold">{reportData?.supply?.totalSupplyOrders || 0}</p>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <p className="text-sm text-gray-500">Total Supply Value</p>
+              <p className="text-2xl font-bold text-green-600">${Number(reportData?.supply?.totalSupplyValue || 0).toLocaleString()}</p>
+            </div>
+          </div>
+        </div>
+
         {/* Top Pharmacies */}
         <div className="bg-white rounded-xl shadow-sm p-6">
           <h2 className="text-lg font-semibold mb-4">Top Pharmacies</h2>
           <div className="space-y-4">
-            {topPharmacies.map((pharmacy, idx) => (
+            {topPharmacies.length > 0 ? topPharmacies.map((pharmacy, idx) => (
               <div key={idx} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold text-sm">{idx + 1}</div>
@@ -222,7 +251,9 @@ export default function Reports() {
                 </div>
                 <p className="font-bold text-green-600">${pharmacy.revenue.toLocaleString()}</p>
               </div>
-            ))}
+            )) : (
+              <p className="text-gray-400 text-sm text-center py-4">No pharmacy data yet</p>
+            )}
           </div>
         </div>
       </div>

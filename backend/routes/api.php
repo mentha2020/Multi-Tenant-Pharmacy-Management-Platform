@@ -101,17 +101,66 @@ Route::middleware('auth:sanctum')->group(function () {
         // Reviews
         Route::post('/pharmacies/{pharmacy}/reviews', [App\Http\Controllers\Api\Customer\ReviewController::class, 'store']);
     });
+
+    // Admin Settings (inside auth)
+    Route::get('/super-admin/settings', function () {
+        return response()->json([
+            'site_name' => config('app.name', 'PharmaPlatform'),
+            'site_description' => 'Multi-tenant pharmacy management platform',
+            'support_email' => 'support@yourplatform.com',
+            'allow_pharmacy_registration' => true,
+            'require_approval' => true,
+            'maintenance_mode' => false,
+        ]);
+    });
+    Route::put('/super-admin/settings', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'site_name' => 'sometimes|string|max:255',
+        ]);
+        return response()->json(['message' => 'Settings updated successfully']);
+    });
+
+    // Admin Category Management (inside auth)
+    Route::prefix('super-admin')->middleware('role:super_admin,sanctum')->group(function () {
+        Route::get('/categories', function () {
+            return \App\Models\Category::all();
+        });
+        Route::post('/categories', function (\Illuminate\Http\Request $request) {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+            ]);
+            $category = \App\Models\Category::create($validated);
+            return response()->json(['category' => $category, 'message' => 'Category created'], 201);
+        });
+        Route::put('/categories/{category}', function (\Illuminate\Http\Request $request, \App\Models\Category $category) {
+            $validated = $request->validate([
+                'name' => 'sometimes|string|max:255',
+                'description' => 'nullable|string',
+                'is_active' => 'boolean',
+            ]);
+            $category->update($validated);
+            return response()->json(['category' => $category, 'message' => 'Category updated']);
+        });
+        Route::delete('/categories/{category}', function (\App\Models\Category $category) {
+            $category->delete();
+            return response()->json(['message' => 'Category deleted']);
+        });
+    });
 });
 
-// Public Customer Routes (no auth required)
-Route::prefix('customer')->group(function () {
-    // Search
-    Route::get('/medicines/search', [App\Http\Controllers\Api\Customer\SearchController::class, 'search']);
+    // Public Customer Routes (no auth required)
+    Route::prefix('customer')->group(function () {
+        // Search
+        Route::get('/medicines/search', [App\Http\Controllers\Api\Customer\SearchController::class, 'search']);
 
-    // Pharmacies
-    Route::get('/pharmacies', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'index']);
-    Route::get('/pharmacies/{pharmacy}', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'show']);
-});
+        // Medicine Detail
+        Route::get('/medicines/{medicine}', [App\Http\Controllers\Api\Customer\MedicineController::class, 'show']);
+
+        // Pharmacies
+        Route::get('/pharmacies', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'index']);
+        Route::get('/pharmacies/{pharmacy}', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'show']);
+    });
 
 // Public Categories (no auth required)
 Route::get('/categories', function () {

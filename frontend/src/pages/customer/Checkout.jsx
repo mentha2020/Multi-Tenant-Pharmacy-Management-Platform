@@ -37,7 +37,7 @@ export default function Checkout() {
 
       const response = await api.post('/customer/orders', orderData);
 
-      if (response.data.success) {
+      if (response.data.order) {
         clearCart();
         setOrderPlaced(true);
         toast.success('Order placed successfully!');
