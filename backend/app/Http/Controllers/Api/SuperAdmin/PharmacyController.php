@@ -35,6 +35,30 @@ class PharmacyController extends Controller
         return response()->json($pharmacy);
     }
 
+    public function store(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'phone' => 'sometimes|string|max:20',
+            'email' => 'required|email|unique:pharmacies,email',
+            'address' => 'sometimes|string',
+            'city' => 'sometimes|string',
+            'state' => 'sometimes|string',
+            'zip_code' => 'sometimes|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
+            'business_hours' => 'nullable|array',
+        ]);
+
+        $pharmacy = Pharmacy::create($validated);
+
+        return response()->json([
+            'pharmacy' => $pharmacy,
+            'message' => 'Pharmacy created successfully',
+        ], 201);
+    }
+
     public function update(Request $request, Pharmacy $pharmacy): JsonResponse
     {
         $validated = $request->validate([

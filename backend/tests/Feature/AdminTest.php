@@ -8,19 +8,22 @@ use App\Models\Medicine;
 use App\Models\SupplyOrder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\SeedsRolesAndPermissions;
 use Laravel\Sanctum\Sanctum;
 
 class AdminTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedsRolesAndPermissions;
 
     protected $admin;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seedRolesAndPermissions();
 
         $this->admin = User::factory()->create(['role' => 'super_admin']);
+        $this->admin->assignRole('super_admin');
     }
 
     public function test_admin_can_access_dashboard()

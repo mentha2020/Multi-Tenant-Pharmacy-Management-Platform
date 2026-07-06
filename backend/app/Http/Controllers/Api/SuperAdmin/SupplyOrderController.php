@@ -75,6 +75,30 @@ class SupplyOrderController extends Controller
         return response()->json($supplyOrder);
     }
 
+    public function update(Request $request, SupplyOrder $supplyOrder): JsonResponse
+    {
+        $validated = $request->validate([
+            'notes' => 'nullable|string',
+            'profit_margin' => 'nullable|numeric|min:0|max:100',
+        ]);
+
+        $supplyOrder->update($validated);
+
+        return response()->json([
+            'supplyOrder' => $supplyOrder->load(['pharmacy', 'items.medicine']),
+            'message' => 'Supply order updated successfully',
+        ]);
+    }
+
+    public function destroy(SupplyOrder $supplyOrder): JsonResponse
+    {
+        $supplyOrder->delete();
+
+        return response()->json([
+            'message' => 'Supply order deleted successfully',
+        ]);
+    }
+
     public function updateStatus(Request $request, SupplyOrder $supplyOrder): JsonResponse
     {
         $validated = $request->validate([

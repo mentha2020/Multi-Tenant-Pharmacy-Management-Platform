@@ -38,6 +38,8 @@ import POS from './pages/pharmacy/POS';
 import PharmacySettings from './pages/pharmacy/Settings';
 import LowStock from './pages/pharmacy/LowStock';
 import SupplyRequests from './pages/pharmacy/SupplyRequests';
+import NotFound from './pages/NotFound';
+import AdminSettings from './pages/admin/Settings';
 
 // Protected Route Component
 function ProtectedRoute({ children, allowedRoles }) {
@@ -127,6 +129,7 @@ function App() {
             <Route path="medicines" element={<AdminMedicines />} />
             <Route path="supply-orders" element={<AdminSupplyOrders />} />
             <Route path="reports" element={<AdminReports />} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
 
           {/* Pharmacy Routes */}
@@ -144,6 +147,9 @@ function App() {
             <Route path="low-stock" element={<LowStock />} />
             <Route path="supply-requests" element={<SupplyRequests />} />
           </Route>
+
+          {/* 404 Catch-all */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </QueryClientProvider>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/register-pharmacy', [AuthController::class, 'registerPharmacy']);
 
     // Super Admin Routes
-    Route::prefix('super-admin')->middleware('role:super_admin')->group(function () {
+    Route::prefix('super-admin')->middleware('role:super_admin,sanctum')->group(function () {
         // Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Api\SuperAdmin\DashboardController::class, 'index']);
 
@@ -60,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Pharmacy Owner Routes
-    Route::prefix('pharmacy')->middleware('role:pharmacy_owner|pharmacy_staff')->group(function () {
+    Route::prefix('pharmacy')->middleware('role:pharmacy_owner|pharmacy_staff,sanctum')->group(function () {
         // Dashboard
         Route::get('/dashboard', [App\Http\Controllers\Api\Pharmacy\DashboardController::class, 'index']);
 
@@ -92,13 +93,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Customer Routes
     Route::prefix('customer')->group(function () {
-        // Search
-        Route::get('/medicines/search', [App\Http\Controllers\Api\Customer\SearchController::class, 'search']);
-
-        // Pharmacies
-        Route::get('/pharmacies', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'index']);
-        Route::get('/pharmacies/{pharmacy}', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'show']);
-
         // Orders
         Route::post('/orders', [App\Http\Controllers\Api\Customer\OrderController::class, 'store']);
         Route::get('/orders', [App\Http\Controllers\Api\Customer\OrderController::class, 'index']);
@@ -107,6 +101,16 @@ Route::middleware('auth:sanctum')->group(function () {
         // Reviews
         Route::post('/pharmacies/{pharmacy}/reviews', [App\Http\Controllers\Api\Customer\ReviewController::class, 'store']);
     });
+});
+
+// Public Customer Routes (no auth required)
+Route::prefix('customer')->group(function () {
+    // Search
+    Route::get('/medicines/search', [App\Http\Controllers\Api\Customer\SearchController::class, 'search']);
+
+    // Pharmacies
+    Route::get('/pharmacies', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'index']);
+    Route::get('/pharmacies/{pharmacy}', [App\Http\Controllers\Api\Customer\PharmacyController::class, 'show']);
 });
 
 // Public Categories (no auth required)

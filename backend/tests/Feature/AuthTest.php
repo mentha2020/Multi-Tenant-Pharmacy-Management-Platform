@@ -9,11 +9,18 @@ use App\Models\Category;
 use App\Models\MedicineStock;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\SeedsRolesAndPermissions;
 use Laravel\Sanctum\Sanctum;
 
 class AuthTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedsRolesAndPermissions;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seedRolesAndPermissions();
+    }
 
     public function test_user_can_register()
     {

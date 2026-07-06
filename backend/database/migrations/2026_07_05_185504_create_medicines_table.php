@@ -22,7 +22,9 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
-            $table->fulltext(['name', 'generic_name', 'brand']);
+            if (config('database.default') !== 'sqlite') {
+                $table->fulltext(['name', 'generic_name', 'brand']);
+            }
         });
     }
 

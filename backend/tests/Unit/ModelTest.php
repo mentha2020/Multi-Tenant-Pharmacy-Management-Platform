@@ -12,10 +12,12 @@ use App\Models\Category;
 use App\Models\SupplyOrder;
 use App\Models\Review;
 use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ModelTest extends TestCase
 {
+    use RefreshDatabase;
     #[Test]
     public function test_user_belongs_to_pharmacy()
     {
@@ -50,7 +52,7 @@ class ModelTest extends TestCase
         $pharmacy = Pharmacy::factory()->create();
         MedicineStock::factory()->count(5)->create(['pharmacy_id' => $pharmacy->id]);
 
-        $this->assertCount(5, $pharmacy->stocks);
+        $this->assertCount(5, $pharmacy->medicineStocks);
     }
 
     #[Test]

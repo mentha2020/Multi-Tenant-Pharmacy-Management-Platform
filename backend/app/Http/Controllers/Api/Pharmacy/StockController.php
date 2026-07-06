@@ -63,6 +63,17 @@ class StockController extends Controller
         ], 201);
     }
 
+    public function show(MedicineStock $stock): JsonResponse
+    {
+        $pharmacyId = request()->user()->pharmacy_id;
+
+        if ($stock->pharmacy_id !== $pharmacyId) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        return response()->json($stock->load('medicine'));
+    }
+
     public function update(Request $request, MedicineStock $stock): JsonResponse
     {
         $validated = $request->validate([

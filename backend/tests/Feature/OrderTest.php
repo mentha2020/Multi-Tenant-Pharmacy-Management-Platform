@@ -10,11 +10,12 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tests\SeedsRolesAndPermissions;
 use Laravel\Sanctum\Sanctum;
 
 class OrderTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, SeedsRolesAndPermissions;
 
     protected $pharmacy;
     protected $owner;
@@ -23,8 +24,10 @@ class OrderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seedRolesAndPermissions();
 
         $this->owner = User::factory()->create(['role' => 'pharmacy_owner']);
+        $this->owner->assignRole('pharmacy_owner');
         $this->pharmacy = Pharmacy::factory()->create([
             'owner_id' => $this->owner->id,
             'is_active' => true,
